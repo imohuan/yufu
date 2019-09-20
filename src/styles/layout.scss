@@ -1,0 +1,87 @@
+.router-link-active {
+  text-decoration: none !important;
+}
+/* 列表页布局 */
+.code {
+  font-size: 1rem!important;
+  font-weight: bold!important;
+}
+.container {
+  width: 95%;
+  margin: auto;
+  padding: 1rem;
+  .search {
+    padding: 10px;
+    &:after {
+      content: '';
+      display: block;
+      clear: both;
+    }
+    .search-left {
+      float: left;
+
+      &:after {
+        content: '';
+        display: block;
+        clear: both;
+      }
+    }
+    .search-right {
+      float: right;
+    }
+
+    .el-input.el-input--mini,.el-input.el-input--medium {
+      width: 160px;
+      margin-right: 10px;
+    }
+
+    .el-input.el-input--mini.middle,.el-input.el-input--medium.middle  {
+      width: 180px;
+    }
+    .el-select.el-select--mini {
+      width: 120px;
+      margin-right: 10px;
+      .el-input.el-input--mini,.el-input.el-input--medium {
+        width: 100%;
+      }
+    }
+  }
+  .table {
+  }
+}
+.pagination {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  display: block!important;
+  .pagination-left {
+    float: left;
+    .page-size {
+      display: inline-block;
+      margin-left: 1rem;
+      .el-input.el-input--mini > input {
+        width: 100px;
+      }
+    }
+    .pagination-title {
+      display: inline-block;
+      height: 32px;
+      line-height: 32px;
+      font-weight: normal;
+      font-size: 12px;
+    }
+  }
+
+  .pagination-right {
+    float: right;
+  }
+
+  &:after {
+    content: '';
+    display: block;
+    clear: both;
+  }
+}
+/* 单词页面的弹出框*/
+.word-dialog .el-dialog {
+  margin-top: 4vh!important;
+}

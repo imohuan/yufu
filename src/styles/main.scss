@@ -1,0 +1,96 @@
+$header_height:4.65rem;
+$header_padding:1.7rem;
+body {
+  min-width: 350px;
+}
+
+.el-message {
+  top: 17rem!important;
+}
+.entry {
+  animation: pulse 2s;
+  position: relative;
+  .containers {
+    position: relative;
+    margin: 2rem auto;
+    width: 95%;
+    height: 90vh;
+    background: #f3f8f9;
+    overflow: hidden;
+    .header {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: $header_height;
+      line-height: $header_height;
+      background: #fff;
+      box-shadow: 0 0.13rem 1rem 0 #d7d8d8;
+      z-index: 999;
+      .left-logo {
+        float: left;
+        .svg {
+          margin-left: 1.7rem;
+          width: 2.00rem;
+          height: $header_height;
+          line-height: $header_height;
+        }
+      }
+      .right-title {
+        float: right;
+        padding-right: $header_padding;
+        h2 {
+          line-height: $header_height;
+        }
+      }
+    }
+    .nr {
+      position: absolute;
+      top: 4.65rem;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      &:after {
+        content: "";
+        display: block;
+        clear: both;
+      }
+      & > div {
+        box-sizing: content-box;
+      }
+      .menu {
+        position: absolute;
+        left: 0;
+        top: 0;
+        float: left;
+        background: #fff;
+        width: 15%;
+        height: 100%;
+        min-width: 12rem;
+        z-index: 888;
+        .bottom {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+        }
+      }
+      .main.hidden {
+        width: 100%!important;
+      }
+      .main {
+        position: absolute;
+        top: 0;
+        right: 0;
+        float: right;
+        background: #f3f8f9;
+        width: 85%;
+        overflow-x: hidden;
+        overflow-y: scroll;
+        height: calc(95vh - 7.05rem);
+        box-sizing: border-box;
+        transition: width .5s ease-in;
+      }
+    }
+  }
+}

@@ -5,7 +5,7 @@
         <div class="center flex-row bd-highlight">
           <h2 style="color:#65c037;"> <span v-translate>{{ content.code }}</span> </h2>
           <span style="color:#adafb0">{{ content.soundMark | analysis }}</span>
-          <span style="color: #de8677">{{ content.paraphrase }}</span>
+          <span style="color: #de8677" :class="{'hidden': !helpType}">{{ content.paraphrase }}</span>
           <span style="color: #aada9b">{{ content.comprehensive }}</span>
           <span style="color: #717371">{{ content.association }}</span>
           <div v-splitTranslate="content.example" class="translation" style="color: #7fc5eb" />
@@ -13,9 +13,10 @@
         </div>
         <div class="bottom">
           <div class="float-left">
-            <el-button type="primary" @click="pren">上一个</el-button>
+            <el-button type="primary" @click="pren">返回</el-button>
           </div>
           <div class="float-right">
+            <el-button class="cut" type="error" @click="helps">提示</el-button>
             <el-button class="cut" type="success" @click="cut">斩</el-button>
             <el-button type="primary" @click="next">下一个</el-button>
           </div>
@@ -27,44 +28,52 @@
 
 <script>
 import { get } from '@/api/word.js'
-import { mapMutations, mapActions } from 'vuex'
+import { mapMutations, mapGetters, mapActions } from 'vuex'
 export default {
   name: 'Word',
   data() {
     return {
-      id: 1,
+      id: 0,
+      helpType: false,
+      helpStatus: false,
       wordType: false,
       content: {}
     }
   },
-  mounted: function() {
-    this.id = this.$route.query.w || 1
+  computed: {
+    ...mapGetters(['reviewId'])
+  },
+  mounted() {
     this.requests()
   },
-  beforeRouteEnter(to, from, next) {
-    const id = to.params.w
-    next(vm => {
-      if (id > 0) {
-        vm.id = id
-        vm.requests()
-        vm.$router.push({ query: { w: id }})
-      }
-    })
-  },
   methods: {
-    ...mapMutations(['ADD_CUTS', 'ADD_NEXTS']),
-    ...mapActions(['saveCut', 'saveNext']),
-    requests(bool) {
+    ...mapMutations(['ADD_CUTS', 'DELETE_REVIEW', 'FILTER_WORD', 'ADD_REVIEW', 'ADD_WORDME']),
+    ...mapActions(['saveCut']),
+    requests() {
+      if (this.reviewId.length === 0) {
+        this.$message({ type: 'success', message: '恭喜你，添加复习任务完成，请继续努力 ' })
+        this.pren()
+        return
+      }
+      this.id = this.reviewId[0]
       this.wordType = true
-      get({ id: this.id }).then(async res => {
+      this.helpType = false
+      this.helpStatus = true
+      get({ id: this.id }).then(res => {
+        this.ADD_WORDME(res)
         this.content = res
         this.wordType = false
       })
     },
     pren() {
-      this.id--
-      this.$router.push({ query: { id: this.id }})
-      this.requests()
+      this.$emit('word')
+    },
+    helps() {
+      if (this.helpStatus) {
+        this.ADD_REVIEW(this.reviewId[0])
+        this.helpStatus = false
+      }
+      this.helpType = true
     },
     cut() {
       const cont = this.content
@@ -75,22 +84,14 @@ export default {
         paraphrase: cont.paraphrase
       })
       this.saveCut()
+      this.FILTER_WORD(cont.id)
       this.nexts()
     },
     next() {
-      const cont = this.content
-      this.ADD_NEXTS({
-        wordId: cont.id,
-        code: cont.code,
-        soundMark: cont.soundMark,
-        paraphrase: cont.paraphrase
-      })
+      this.DELETE_REVIEW()
       this.nexts()
-      this.saveNext()
     },
     nexts() {
-      this.id++
-      this.$router.push({ query: { w: this.id }})
       this.requests()
     }
   }
@@ -107,6 +108,9 @@ export default {
     right: 2rem;
     .cut {}
   }
+}
+.hidden {
+  opacity: 0;
 }
 .center {
   text-align: center;

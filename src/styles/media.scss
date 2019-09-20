@@ -1,0 +1,67 @@
+@media only screen and(max-width:84.5rem){
+  .nr {
+    top: $header_height!important;
+    .main {
+      width: calc(100% - 12rem) !important;
+    }
+  }
+}
+
+@media only screen and(max-width:40rem){
+  $header_height:4.3rem;
+  $header_padding:1.7rem;
+
+  html {
+    font-size: 12px!important;
+  }
+
+  .containers {
+    min-width: 350px;
+    margin: 0 !important;
+    height: 100vh !important;
+    width: 100% !important;
+
+    .header {
+      height: $header_height!important;
+      .left-logo {
+        line-height: $header_height !important;
+        .svg {
+          height: $header_height!important;
+          line-height: $header_height!important;
+        }
+      }
+      .right-title {
+        h2 {
+          line-height: $header_height!important;
+        }
+      }
+    }
+    .nr {
+      top: $header_height!important;
+      .main {
+        width: 100% !important;
+        height: calc(100vh - 3.6rem);
+        .container {
+          width: 100%!important;
+        }
+      }
+    }
+
+    .search-left,.search-right,.pagination-left,.pagination-right{
+      float: none !important;
+    }
+    .search-right {
+      margin-top: 1rem;
+    }
+  }
+
+  .pagination {
+    .pagination-left {
+      float: none;
+    }
+    .pagination-right {
+      float: none;
+    }
+  }
+}
+

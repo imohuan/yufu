@@ -1,32 +1,15 @@
 <template>
-  <el-row :gutter="40" class="panel-group">
-    <el-col :xs="12" :sm="12" :lg="12" class="card-panel-col">
-      <div class="card-panel" @click="handleSetLineChartData('review')">
-        <div class="card-panel-icon-wrapper icon-review">
-          <svg-icon class="svg-size" icon-class="bookmark" />
-        </div>
-        <div class="card-panel-description">
-          <div class="card-panel-text">
-            复习
-          </div>
-          <count-to :start-val="0" :end-val="1230" :duration="2600" class="card-panel-num" />
-        </div>
+  <div class="card-panel" @click="handleSetLineChartData('review')">
+    <div class="card-panel-icon-wrapper icon-review">
+      <svg-icon class="svg-size" :icon-class="content.icon" />
+    </div>
+    <div class="card-panel-description">
+      <div class="card-panel-text">
+        {{ content.name }}
       </div>
-    </el-col>
-    <el-col :xs="12" :sm="12" :lg="12" class="card-panel-col">
-      <div class="card-panel" @click="handleSetLineChartData('day')">
-        <div class="card-panel-icon-wrapper icon-day">
-          <svg-icon class="svg-size" icon-class="calendar" />
-        </div>
-        <div class="card-panel-description">
-          <div class="card-panel-text">
-            天
-          </div>
-          <count-to :start-val="0" :end-val="12" :duration="3000" class="card-panel-num" />
-        </div>
-      </div>
-    </el-col>
-  </el-row>
+      <count-to v-show="content.data >= 0" :start-val="0" :end-val="content.data" :duration="2600" class="card-panel-num" />
+    </div>
+  </div>
 </template>
 
 <script>
@@ -36,9 +19,15 @@ export default {
   components: {
     CountTo
   },
+  props: {
+    content: {
+      type: Object,
+      required: true
+    }
+  },
   methods: {
     handleSetLineChartData(type) {
-      this.$emit('handleSetLineChartData', type)
+      this.$emit('handlePanelGroupClick', type)
     }
   }
 }
@@ -63,9 +52,9 @@ export default {
     box-shadow: 4px 4px 40px rgba(0, 0, 0, .05);
     border-color: rgba(0, 0, 0, .05);
 
-    &:hover {
-      box-shadow: 3px 3px 17px rgba(0, 0, 0, 0.45);
-    }
+    /*&:hover {*/
+      /*box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.15);*/
+    /*}*/
 
     .svg-size {
       width: 4rem;

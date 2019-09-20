@@ -157,13 +157,12 @@
 
 <script>
 import { save, page } from '@/api/word.js'
-import mixins from '@/utils/mixins.js'
 import { readXLSX, parseList } from '@/utils/xlsx.js'
+import { throttle } from '@/utils/index.js'
 import { mapGetters } from 'vuex'
 
 export default {
   name: 'Manage',
-  mixins: [mixins],
   data() {
     return {
       tableType: false,
@@ -187,7 +186,7 @@ export default {
           search: '',
           grade: '全部'
         },
-        size: 10,
+        size: 100,
         page: 1
       },
       result: {},
@@ -195,6 +194,7 @@ export default {
     }
   },
   mounted() {
+    this.requests = throttle(this.requests)
     this.requests()
   },
   beforeRouteEnter(to, form, next) {
@@ -233,19 +233,19 @@ export default {
     onSearch() {
       this.qo.page = 1
       this.tableType = true
-      this.asyncRequest()
+      this.requests()
       this.closeText()
     },
     handleSizeChange(value) {
       this.qo.size = value
       this.qo.page = 1
       this.tableType = true
-      this.asyncRequest()
+      this.requests()
     },
     handleCurrentChange(value) {
       this.qo.page = value
       this.tableType = true
-      this.asyncRequest()
+      this.requests()
     },
     dialogHandleCurrentChange(value) {
       this.dialogData.page = value

@@ -1,38 +1,9 @@
-const routes = [
-  {
-    path: '/',
-    name: 'home',
-    meta: {
-      title: '首 页',
-      icon: 'bookmark'
-    }
-  },
-  {
-    path: '/word',
-    name: 'word',
-    meta: {
-      title: '记单词',
-      icon: 'notebook',
-      children: [
-        {
-          path: '/word_manage',
-          name: 'wordManage'
-        }
-      ]
-    }
-  }
-]
+// let values = '[sfdsdid]'
+// console.log(`/${values.match(/^\[(.+)]$/)[1]}/`)
+// console.log(values, /^\[.+]$/.test(values))
 
-function parseRoute(routes) {
-  return [].slice.call(routes).reduce((rs, r) => {
-    if (r.meta && r.meta.children) {
-      const children = Object.assign([], r.meta.children)
-      delete r.meta.children
-      rs.push(...parseRoute(children))
-    }
-    rs.push(r)
-    return rs
-  }, [])
-}
-
-console.log(parseRoute(routes))
+// const en = '[HMR] Waiting for update signal from WDS...'
+//
+// console.log(en.match(/[a-zA-z]+/ig))
+// APP ID：20190907000332662
+// 密钥：Uue5ysGnCLJ1bwHZoxLz

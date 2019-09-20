@@ -1,0 +1,113 @@
+@import "main";
+@import "layout";
+@import "media";
+
+body {
+  position: relative;
+  overflow: hidden;
+  background: #a8c995 !important;
+}
+
+.none-select {
+  user-select: none;
+}
+
+/* 复习页面的菜单*/
+ul.review-menu {
+  li {
+    height: 40px!important;
+    line-height: 40px!important;
+  }
+}
+
+/* 复习页面的菜单*/
+.review-menu {
+  ul li {
+    height: 40px!important;
+    line-height: 40px!important;
+  }
+}
+
+/* 首页的按钮*/
+.bottom .el-button--mini, .el-button--mini.is-round {
+  padding: .6rem 3rem;
+}
+
+
+
+.paraphrase {
+  color: #2d2f33;
+  padding: 4px 10px;
+  user-select: none;
+  font-size: 0.8rem;
+}
+
+.paraphrase.hidden {
+  color: rgb(94, 97, 96);
+  background: rgb(94, 97, 96);
+}
+
+.v-print {
+  cursor: pointer;
+  user-select: none;
+  
+  .audio {
+    display: inline;
+    svg {
+      width: 20px;
+      height: 20px;
+      color: #00ffff;
+    }
+  }
+}
+
+.v-span {
+  user-select: none;
+  cursor: pointer;
+  margin: 0 4px;
+  &:hover {
+    font-weight: bold;
+    color: #000;
+  }
+}
+
+.v-translation {
+  position: absolute;
+  z-index: 2028;
+  opacity: 0;
+  transition: opacity 1s, left 1s;
+  background: #fff;
+  min-width: 200px;
+  max-width: 400px;
+  transform-origin: center bottom 0;
+  border-radius: 4px;
+  border: 1px solid #ebeef5;
+  padding: 12px;
+  color: #606266;
+  line-height: 1.4;
+  text-align: justify;
+  font-size: 14px;
+  box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
+  word-break: break-all;
+
+  .arrow {
+    position: relative;
+    bottom: -23px;
+    left: 50%;
+    margin-right: 3px;
+    border-width: 6px;
+    border-top-color: #ebeef5;
+    filter: drop-shadow(0 2px 12px rgba(0,0,0,.03));
+    &:after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 2px;
+      width: 0;
+      height: 0;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      border-top: 10px solid #fff;
+    }
+  }
+}
