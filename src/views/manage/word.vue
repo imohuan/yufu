@@ -24,6 +24,7 @@
         <el-input
           v-model="qo.condition.search"
           placeholder="请输入单词,名称"
+          @keyup.enter.native="onSearch"
         />
         <el-button type="primary" @click="onSearch">搜索</el-button>
       </div>
@@ -53,7 +54,11 @@
             <el-tag type="success">{{ scope.row.grade }}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column align="center" prop="picture" label="图片" />
+        <el-table-column align="center" width="200" label="编辑">
+          <template slot-scope="scope">
+            <el-button type="primary" @click="details(scope.row)">详</el-button>
+          </template>
+        </el-table-column>
       </el-table>
     </div>
     <div class="pagination">
@@ -206,6 +211,9 @@ export default {
     next()
   },
   methods: {
+    details(row) {
+      this.$router.push({ name: 'word', params: { w: row.id }})
+    },
     save() {
       const data = this.parseList(0, 0, true)
       save(data).then(res => {

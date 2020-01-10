@@ -17,11 +17,18 @@
         <form class="bubble-distribution">
           <h3>欢迎来到语符</h3>
           <div class="accout">
-            <input v-model="info.username" type="text" placeholder="请输入手机或邮箱" pattern="^1[3456789]\d{9}$|^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$" required @keyup.enter="login">
+            <input v-model="info.username" type="text" placeholder="请输入手机或邮箱" pattern="^1[3456789]\d{9}$|^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$" required @keyup.enter.native="login">
             <img src="https://b-gold-cdn.xitu.io/v3/static/img/greeting.1415c1c.png">
           </div>
           <div class="password">
-            <input v-model="info.password" type="password" placeholder="请输入密码(6到20位字符)" pattern="^[\dA-Za-z_]{6,20}$" required @keyup.enter="login">
+            <input
+              v-model="info.password"
+              type="password"
+              placeholder="请输入密码(6到20位字符)"
+              pattern="^[\dA-Za-z_]{6,20}$"
+              required
+              @keyup.enter.native="login"
+            >
             <img src="https://b-gold-cdn.xitu.io/v3/static/img/blindfold.58ce423.png">
           </div>
           <img src="https://b-gold-cdn.xitu.io/v3/static/img/normal.0447fe9.png">
@@ -77,11 +84,6 @@ export default {
     },
     register() {
     },
-    random() {
-      /* randomWord(10).then(res => {
-        this.result = res
-      })*/
-    }
   }
 }
 </script>

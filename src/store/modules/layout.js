@@ -8,9 +8,14 @@ const data = {
       opened: Cookies.get('sidebarStatus') ? !!+Cookies.get('sidebarStatus') : true,
       withoutAnimation: false
     },
-    device: 'desktop'
+    device: 'desktop',
+    audio: new Audio()
   },
   mutations: {
+    PLAY_AUDIO: (state, src) => {
+      state.audio.src = src
+      state.audio.play()
+    },
     SET_MAIN_ROUTE: (state, value) => {
       state.mainRoute = value
     },

@@ -3,6 +3,7 @@ const getters = {
   opened: state => state.layout.sidebar.opened,
   withoutAnimation: state => state.layout.sidebar.withoutAnimation,
   device: state => state.layout.device,
+  audio: state => state.layout.audio,
 
   cuts: state => state.word.cuts,
   nexts: state => state.word.nexts,

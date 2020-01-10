@@ -15,10 +15,10 @@ module.exports = {
     },
     proxy: {
       [process.env.VUE_APP_BASE_API]: {
-        target: `http://localhost:2000/web/v1/`,
+        target: `http://localhost:1200`,
         changeOrigin: true,
         pathRewrite: {
-          ['^' + process.env.VUE_APP_BASE_API]: ''
+          '/search': ''
         }
       },
       '/api': {

@@ -1,7 +1,3 @@
-@import "main";
-@import "layout";
-@import "media";
-
 body {
   position: relative;
   overflow: hidden;
@@ -50,7 +46,6 @@ ul.review-menu {
 .v-print {
   cursor: pointer;
   user-select: none;
-  
   .audio {
     display: inline;
     svg {
@@ -90,7 +85,11 @@ ul.review-menu {
   box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
   word-break: break-all;
 
+  p {
+    font-size: .8rem;
+  }
   .arrow {
+    display: none;
     position: relative;
     bottom: -23px;
     left: 50%;

@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import { throttle } from '../utils'
 import { youdao } from '@/api/voice.js'
-
+import state from '../store/index.js'
 Vue.directive('splitTranslate', {
   inserted: function(el, bind) {
     el.classList.add('v-print')
@@ -13,13 +13,12 @@ Vue.directive('splitTranslate', {
     `
     fragment.appendChild(div)
     document.body.appendChild(fragment)
-
   },
   update(el, bind) {
     const Hdiv = document.body.querySelector('.v-translation')
     const phrase = bind.value
     el.music = throttle(function() {
-      new Audio(`${process.env.VUE_APP_BASE_API}/voice/?nr=${phrase}`).play()
+      state.commit('PLAY_AUDIO', `${process.env.VUE_APP_BASE_API}/voice/?nr=${phrase}`)
     }, 200)
     if (phrase == null) return
     const arry = phrase.match(/[a-zA-z]+/ig)
@@ -31,7 +30,7 @@ Vue.directive('splitTranslate', {
       span.innerText = en
       span.classList = 'v-span'
       span.music = throttle(function() {
-        new Audio(`http://localhost:2000/web/v1/voice/?nr=${en}`).play()
+        state.commit('PLAY_AUDIO', `${process.env.VUE_APP_BASE_API}/voice/?nr=${en}`)
       }, 1000)
       let timer = null
       span.onmouseenter = function() {
@@ -41,7 +40,7 @@ Vue.directive('splitTranslate', {
       span.onmouseleave = function() {
         timer = setTimeout(_ => {
           Hdiv.style.opacity = 0
-        }, 1000)
+        }, 3000)
       }
       span.onclick = function() {
         this.music()
@@ -70,11 +69,25 @@ function SpanMoseOver(en, Hdiv, _this) {
               <div class="arrow"></div>
           `
 
+    const last = Hdiv.querySelector('.arrow')
     const box = _this.getBoundingClientRect()
     const offset = -10
-    const left = box.x - (Hdiv.offsetWidth / 2) + offset + (_this.offsetWidth / 2)
+    let left = box.x - (Hdiv.offsetWidth / 2) + offset + (_this.offsetWidth / 2)
+    if (left < 0) {
+      // last.style.left = `calc(50% - ${Math.abs(left)}px)`
+      left = 0
+    }
     Hdiv.style.opacity = 1
     Hdiv.style.left = left + 'px'
+    const availWidth = screen.availWidth
+    const w = (Hdiv.offsetWidth + left) - availWidth
+    if (w > 0) {
+      Hdiv.style.left = 'unset'
+      Hdiv.style.right = 0
+    }
+    // const last_left = _this.offsetLeft - Hdiv.offsetLeft + (_this.offsetWidth / 2) + offset
+    // console.log(last_left, _this.offsetLeft, Hdiv.offsetLeft, (_this.offsetWidth / 2))
+    // last.style.left = `${last_left}px`
     Hdiv.style.top = box.y - _this.offsetHeight - Hdiv.offsetHeight + 'px'
   })
 }
