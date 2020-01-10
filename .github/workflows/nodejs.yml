@@ -13,16 +13,11 @@ jobs:
       run: |
         npm i
         npm run build
-        ls
-        echo ---------------------------------------
-        cd dist 
-        echo ---------------------------------------
-        ls
       env:
         CI: true
-#     - name: Build and Deploy
-#       uses: JamesIves/github-pages-deploy-action@master
-#       env:
-#         ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-#         BRANCH: gh-pages
-#         FOLDER: dist
+    - name: Build and Deploy
+      uses: JamesIves/github-pages-deploy-action@master
+      env:
+        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        BRANCH: gh-pages
+        FOLDER: dist
