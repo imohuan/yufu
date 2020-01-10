@@ -49,7 +49,7 @@
 
 <script>
 // import { randomWord } from '@/api/word.js'
-import { login } from '@/api/user.js'
+import { login, register } from '@/api/user.js'
 
 export default {
   name: 'Login',
@@ -83,7 +83,18 @@ export default {
       })
     },
     register() {
-    },
+      if (this.info.username === '' || this.info.password === '') {
+        this.$message({
+          message: '请输入信息',
+          type: 'error'
+        })
+        return
+      }
+      register(this.info).then(res => {
+        const path = this.$route.params['redirect'] || '/'
+        this.$router.push({ path })
+      })
+    }
   }
 }
 </script>

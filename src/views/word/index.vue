@@ -56,7 +56,7 @@ export default {
     ...mapActions(['saveCut', 'saveNext']),
     requests(bool) {
       this.wordType = true
-      get({ id: this.id }).then(async res => {
+      get(this.id).then(async res => {
         this.ADD_WORDME(res)
         this.content = res
         this.wordType = false

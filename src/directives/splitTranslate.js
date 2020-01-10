@@ -2,6 +2,8 @@ import Vue from 'vue'
 import { throttle } from '../utils'
 import { youdao } from '@/api/voice.js'
 import state from '../store/index.js'
+
+const baseApi = '/search'
 Vue.directive('splitTranslate', {
   inserted: function(el, bind) {
     el.classList.add('v-print')
@@ -18,7 +20,7 @@ Vue.directive('splitTranslate', {
     const Hdiv = document.body.querySelector('.v-translation')
     const phrase = bind.value
     el.music = throttle(function() {
-      state.commit('PLAY_AUDIO', `${process.env.VUE_APP_BASE_API}/voice/?nr=${phrase}`)
+      state.commit('PLAY_AUDIO', `${baseApi}/voice/${phrase}`)
     }, 200)
     if (phrase == null) return
     const arry = phrase.match(/[a-zA-z]+/ig)
@@ -30,7 +32,7 @@ Vue.directive('splitTranslate', {
       span.innerText = en
       span.classList = 'v-span'
       span.music = throttle(function() {
-        state.commit('PLAY_AUDIO', `${process.env.VUE_APP_BASE_API}/voice/?nr=${en}`)
+        state.commit('PLAY_AUDIO', `${baseApi}/voice/${en}`)
       }, 1000)
       let timer = null
       span.onmouseenter = function() {

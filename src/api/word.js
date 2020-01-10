@@ -16,9 +16,8 @@ export function get(data) {
     })
   }
   return req({
-    url: '/word/',
-    method: 'get',
-    params: data
+    url: `/word/get/${data}`,
+    method: 'get'
   })
 }
 
@@ -41,6 +40,7 @@ export function edit(data) {
 }
 
 /* 保存单词*/
+/*
 export function save(data) {
   return req({
     url: '/word/save',
@@ -48,6 +48,7 @@ export function save(data) {
     data
   })
 }
+*/
 
 /* 查询*/
 export function page(data) {
@@ -59,6 +60,7 @@ export function page(data) {
 }
 
 /* 随机单词*/
+/*
 export function randomWord(data) {
   return req({
     url: '/word/random',
@@ -67,3 +69,4 @@ export function randomWord(data) {
   })
 }
 
+*/

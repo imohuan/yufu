@@ -14,11 +14,11 @@ module.exports = {
       errors: true
     },
     proxy: {
-      [process.env.VUE_APP_BASE_API]: {
+      '/search': {
         target: `http://localhost:1200`,
         changeOrigin: true,
         pathRewrite: {
-          '/search': ''
+          '^/search': ''
         }
       },
       '/api': {

@@ -6,9 +6,8 @@ import store from '@/store/index.js'
 
 export function getTranslate(data) {
   return req({
-    url: '/voice/translate',
-    method: 'get',
-    params: { nr: data }
+    url: `/voice/translate/${data}`,
+    method: 'get'
   })
 }
 
