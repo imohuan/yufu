@@ -1,4 +1,4 @@
-import { update } from '@/api/review.js'
+// import { update } from '@/api/review.js'
 
 const data = {
   namespaces: true,
@@ -17,9 +17,10 @@ const data = {
       state.reviewId.shift()
       const bool = state.reviewId.find(f => f === id)
       if (!bool) {
-        update(id).then(res => {
-          console.log(`当前${id}单词复习成功! ${res}`)
-        })
+        console.log('复习成功')
+        // update(id).then(res => {
+        //   console.log(`当前${id}单词复习成功! ${res}`)
+        // })
       }
     },
     FILTER_WORD: (state, id) => {

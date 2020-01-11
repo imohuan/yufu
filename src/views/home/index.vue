@@ -2,7 +2,7 @@
   <div class="container">
     <el-row :gutter="40" class="panel-group">
       <el-col :xs="12" :sm="12" :lg="12" class="card-panel-col">
-        <panel-group :content="{ name: '词库', icon: 'bookmark', data: result.wordTotal }" />
+        <panel-group :content="{ name: '词库', icon: 'bookmark', data: result.word_cont }" />
       </el-col>
       <el-col :xs="12" :sm="12" :lg="12" class="card-panel-col">
         <panel-group :content="{ name: '天', icon: 'calendar', data: result.day }" />
@@ -11,16 +11,16 @@
 
     <el-row :gutter="40" class="panel-group data-group">
       <el-col :xs="12" :sm="12" :lg="12" class="card-panel-col percentage">
-        <div class="percentage-title clearfix"><h5>复习单词</h5> <span>{{ result.everydayReviewDone }} / {{ result.everydayReview }}</span></div>
+        <div class="percentage-title clearfix"><h5>复习单词</h5> <span>{{ result.review_word }} / {{ result.review_cont }}</span></div>
         <el-progress :text-inside="true" :color="colors" :stroke-width="26" :percentage="reviewPercentage || 0" />
-        <div class="percentage-title clearfix"><h5>目标单词</h5> <span>{{ result.everydayDone }} / {{ result.everydayWord }}</span></div>
+        <div class="percentage-title clearfix"><h5>目标单词</h5> <span>{{ result.goal_word }} / {{ result.goal_cont }}</span></div>
         <el-progress :text-inside="true" :color="colors" :stroke-width="26" :percentage="cutPercentage || 0" />
 
-        <panel-group style="margin-top: 2rem;" :content="{ name: '单词记忆', icon: 'bookmark', data: result.remember }" />
+        <panel-group style="margin-top: 2rem;" :content="{ name: '单词记忆', icon: 'bookmark', data: result.record }" />
 
-        <div class="bottom">
+        <!--<div class="bottom">
           <el-button type="success" round>学习</el-button>
-        </div>
+        </div>-->
       </el-col>
     </el-row>
   </div>
@@ -48,11 +48,11 @@ export default {
   computed: {
     reviewPercentage() {
       const result = this.result
-      return (result.everydayReviewDone / result.everydayReview).toFixed(2) * 100
+      return (result.review_word / result.review_cont).toFixed(2) * 100
     },
     cutPercentage() {
       const result = this.result
-      return (result.everydayDone / result.everydayWord).toFixed(2) * 100
+      return (result.goal_word / result.goal_cont).toFixed(2) * 100
     }
   },
   mounted() {

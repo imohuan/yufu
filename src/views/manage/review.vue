@@ -21,9 +21,6 @@
             <span v-translate class="code">{{ scope.row.code }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" width="100" prop="soundMark" label="音标">
-          <template slot-scope="scope">{{ scope.row.soundMark | analysis }}</template>
-        </el-table-column>
         <el-table-column align="center">
           <template slot="header">
             <span @click="handleParaphraseAll">解释 - All</span>
@@ -32,11 +29,18 @@
             <span :class="{'paraphrase': true, 'hidden': scope.row.hidden}" @click="handleParaphrase(scope.$index, scope.row)">{{ scope.row.paraphrase }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" width="200" label="编辑">
+        <el-table-column align="center" label="综合法" prop="comprehensive" />
+        <el-table-column align="center" label="联想法" prop="association" />
+        <el-table-column align="center" width="60" label="等级">
+          <template slot-scope="scope">
+            <el-tag type="success">{{ scope.row.grade }}</el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" width="140" label="编辑">
           <template slot-scope="scope">
             <div v-show="!tableType">
               <el-button v-if="menuIndex === '1'" type="success" @click="cut(scope.$index, scope.row)">斩</el-button>
-              <el-button v-else type="primary" @click="cut(scope.$index, scope.row)">加入复习</el-button>
+              <el-button v-else type="info" @click="cut(scope.$index, scope.row)">复</el-button>
               <el-button type="primary" @click="details(scope.row)">详</el-button>
             </div>
           </template>
@@ -78,8 +82,7 @@
 </template>
 
 <script>
-import { page as cutPage, del as cutDel } from '@/api/cut.js'
-import { page as reviewPage, del as reviewDel } from '@/api/review.js'
+import { list, update_word } from '@/api/info.js'
 import { throttle } from '@/utils/index.js'
 import { Message } from 'element-ui'
 
@@ -90,11 +93,7 @@ export default {
       tableType: false,
       menuIndex: '1',
       qo: {
-        condition: {
-          search: '',
-          grade: '全部'
-        },
-        size: 100,
+        size: 10,
         page: 1
       },
       result: {}
@@ -138,21 +137,28 @@ export default {
     },
     reviewRequests() {
       this.tableType = true
-      reviewPage(this.qo).then(res => {
-        res.content = res.content.map(m => {
-          return { ...m, hidden: true }
-        })
-        this.result = res
+      list(this.qo).then(res => {
+        this.result = {
+          totalElements: res.cont,
+          totalPages: res.max_page,
+          content: res.data.map(m => {
+            return { ...m, hidden: true }
+          })
+        }
         this.tableType = false
       })
     },
     cutRequests() {
       this.tableType = true
-      cutPage(this.qo).then(res => {
-        res.content = res.content.map(m => {
+      list(this.qo).then(res => {
+        const content = res.data.map(m => {
           return { ...m, hidden: true }
-        })
-        this.result = res
+        }).filter(f => f.type === 2)
+        this.result = {
+          totalElements: res.cont,
+          totalPages: res.max_page,
+          content
+        }
         this.tableType = false
       })
     },
@@ -179,23 +185,16 @@ export default {
     },
     cut(index, row) {
       if (this.menuIndex === '1') {
-        reviewDel(row.id).then(res => {
-          Message({
-            type: 'success',
-            message: '斩'
-          })
+        update_word({ id: row.id, type: 2 }).then(res => {
+          Message({ type: 'success', message: '斩' })
           this.result.content.splice(index, 1)
         })
       } else {
-        cutDel(row.id).then(res => {
-          Message({
-            type: 'success',
-            message: '加入复习成功'
-          })
+        update_word({ id: row.id, type: 1 }).then(res => {
+          Message({ type: 'success', message: '加入复习成功' })
           this.result.content.splice(index, 1)
         })
       }
-      console.log(index, row)
     }
   }
 }

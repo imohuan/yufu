@@ -59,14 +59,14 @@ export default {
       this.wordType = true
       this.helpType = false
       this.helpStatus = true
-      get({ id: this.id }).then(res => {
+      get(this.id).then(res => {
         this.ADD_WORDME(res)
         this.content = res
         this.wordType = false
       })
     },
     pren() {
-      this.$emit('word')
+      this.$emit('word', this.content)
     },
     helps() {
       if (this.helpStatus) {
@@ -80,7 +80,6 @@ export default {
       this.ADD_CUTS({
         wordId: cont.id,
         code: cont.code,
-        soundMark: cont.soundMark,
         paraphrase: cont.paraphrase
       })
       this.saveCut()

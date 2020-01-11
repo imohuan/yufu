@@ -50,6 +50,7 @@
 <script>
 // import { randomWord } from '@/api/word.js'
 import { login, register } from '@/api/user.js'
+import { setToken } from '@/utils/auth.js'
 
 export default {
   name: 'Login',
@@ -78,6 +79,7 @@ export default {
         return
       }
       login(this.info).then(res => {
+        setToken(res.id)
         const path = this.$route.params['redirect'] || '/'
         this.$router.push({ path })
       })
@@ -91,6 +93,7 @@ export default {
         return
       }
       register(this.info).then(res => {
+        setToken(res.id)
         const path = this.$route.params['redirect'] || '/'
         this.$router.push({ path })
       })

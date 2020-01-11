@@ -109,7 +109,7 @@ export default {
           grade: '全部'
         },
         search: {},
-        size: 100,
+        size: 10,
         page: 1
       },
       result: {},

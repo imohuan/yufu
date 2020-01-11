@@ -63,16 +63,17 @@ export default {
       })
     },
     pren() {
+      const sd = this.id
       this.id--
+      if (this.id <= 0) this.id = 1
       this.$router.push({ query: { id: this.id }})
-      this.requests()
+      if (sd !== this.id) this.requests()
     },
     cut() {
       const cont = this.content
       this.ADD_CUTS({
         wordId: cont.id,
         code: cont.code,
-        soundMark: cont.soundMark,
         paraphrase: cont.paraphrase
       })
       this.saveCut()
@@ -83,7 +84,6 @@ export default {
       this.ADD_NEXTS({
         wordId: cont.id,
         code: cont.code,
-        soundMark: cont.soundMark,
         paraphrase: cont.paraphrase
       })
       this.nexts()

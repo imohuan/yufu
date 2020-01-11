@@ -1,5 +1,9 @@
-import { save } from '@/api/cut.js'
-import { save as saveReview } from '@/api/review.js'
+// import { save } from '@/api/cut.js'
+// import { save as saveReview } from '@/api/review.js'
+// todo save store
+import { add_word } from '../../api/info'
+import { getToken } from '../../utils/auth'
+
 const data = {
   namespaces: true,
   state: {
@@ -44,15 +48,17 @@ const data = {
   },
   actions: {
     saveCut(state) {
-      save(state.getters.cuts[0].wordId).then(res => {
-        console.log('添加成功', res)
+      const word = state.getters.cuts[state.getters.cuts.length - 1]
+      add_word({ code: word.code, word_id: word.wordId, user_id: getToken(), type: 2 }).then(res => {
+        console.log('加入cut')
         state.commit('REMOVE_CUTS')
       })
     },
     saveNext(state) {
-      saveReview(state.getters.nexts).then(res => {
-        console.log('加入复习单词本', res)
-        state.commit('REMOVE_NEXTS')
+      const word = state.getters.nexts[state.getters.nexts.length - 1]
+      add_word({ code: word.code, word_id: word.wordId, user_id: getToken() }).then(res => {
+        console.log('加入复习')
+        state.commit('REMOVE_CUTS')
       })
     }
   }

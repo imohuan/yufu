@@ -13,8 +13,10 @@ service.interceptors.response.use(
         type: 'error',
         duration: 5 * 1000
       })
+      return Promise.reject(res.msg)
+    } else {
+      return response.data.msg
     }
-    return response.data.msg
   },
   error => {
     console.log('err' + error)

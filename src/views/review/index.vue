@@ -21,9 +21,6 @@
               <span v-translate class="code">{{ scope.row.code }}</span>
             </template>
           </el-table-column>
-          <el-table-column align="center" width="100" prop="soundMark" label="音标">
-            <template slot-scope="scope">{{ scope.row.soundMark | analysis }}</template>
-          </el-table-column>
           <el-table-column align="center" label="解释">
             <template slot="header">
               <span @click="handleParaphraseAll">解释 - All</span>
@@ -32,9 +29,11 @@
               <span :class="{'paraphrase': true, 'hidden': scope.row.hidden}" @click="handleParaphrase(scope.$index, scope.row)">{{ scope.row.paraphrase }}</span>
             </template>
           </el-table-column>
-          <el-table-column align="center" width="100" label="编辑">
+          <el-table-column align="center" label="综合法" prop="comprehensive" />
+          <el-table-column align="center" label="联想法" prop="association" />
+          <el-table-column align="center" width="60" label="等级">
             <template slot-scope="scope">
-              <el-button type="primary" @click="details(scope.row)">详</el-button>
+              <el-tag type="success">{{ scope.row.grade }}</el-tag>
             </template>
           </el-table-column>
         </el-table>
@@ -46,9 +45,10 @@
 
 <script>
 import PanelGroup from '@/components/PanelGroup/index'
-import { page } from '@/api/review.js'
 import { mapMutations } from 'vuex'
 import ReviewWord from './word'
+import { review_list, update_word_by_user_id } from '@/api/info'
+import { getToken } from '../../utils/auth'
 
 export default {
   name: 'Review',
@@ -76,23 +76,30 @@ export default {
   methods: {
     ...mapMutations(['WORD_ID_ALL']),
     requests() {
-      page(this.qo).then(res => {
-        res.content = res.content.map(m => {
-          return { ...m, hidden: true }
-        })
-        this.result = res
+      review_list(this.qo).then(res => {
+        this.result = {
+          totalElements: res.cont,
+          totalPages: res.max_page,
+          content: res.data.map(m => {
+            return { ...m, hidden: true }
+          })
+        }
       })
     },
-    HandlerWordType() {
+    HandlerWordType(data) {
       this.wordType = true
+      update_word_by_user_id({ user_id: getToken(), word_id: data.id }).then(res => {
+        console.log(12, res)
+      })
+      this.requests()
     },
     goReview() {
       const content = Array.prototype.slice.call(this.result.content)
       if (content.length < 1) return
-      const reviewId = content.map(m => m.id)
+      console.log(content)
+      const reviewId = content.map(m => m.word_id)
       const reviewIds = [...reviewId, ...reviewId]
       reviewIds.push(...reviewId.sort(() => Math.random() - 0.5))
-      console.log(reviewIds)
       this.WORD_ID_ALL(reviewIds)
       this.wordType = false
     },
